@@ -167,7 +167,6 @@ function processData(data, len, dataIndex) {
     totalizer.data = data.map(item => item[totalizer.dataKey]);
     let diffPercent = totalizer.data[len - 1] - totalizer.data[0];
     document.getElementById(totalizer.elementId).innerHTML = addSeparator(totalizer.data[len - 1]);
-
     updateDiffElement(diffElement, diffPercent);
 }
 
@@ -176,14 +175,19 @@ function updateElementValues(data, len) {
     for (let i = 0; i < elementsToUpdate.length; i++) {
         let elementInfo = elementsToUpdate[i];
         let value = lastData[elementInfo.key];
-        let formattedValue = `${addSeparator(value)}${elementInfo.unit}`;
+        let formattedValue = 0;
+        if (elementInfo.key == "Turbidity_Sedimentation_A" || elementInfo.key == "Turbidity_Sedimentation_B") {
+            formattedValue = `${value.toFixed(2)}${elementInfo.unit}`;
+        } else {
+            formattedValue = `${addSeparator(value)}${elementInfo.unit}`;
+        }   
         document.getElementById(elementInfo.id).innerHTML = formattedValue;
     }
 }
 
 function start() {
     let http = new XMLHttpRequest();
-    http.open("GET", "http://127.0.0.1:1887/GetCurrent", true);
+    http.open("GET", "http://api-dti.azycloud.my.id/GetCurrent", true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {

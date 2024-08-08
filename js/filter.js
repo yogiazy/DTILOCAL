@@ -15,7 +15,7 @@ if (win && document.querySelector('#sidenav-scrollbar')) {
 
 function takedatarelay() {
     var http = new XMLHttpRequest();
-    http.open("GET", "http://127.0.0.1:1887/GetStatusRelay", true);
+    http.open("GET", "http://api-dti.azycloud.my.id/GetStatusRelay", true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -28,7 +28,7 @@ function takedatarelay() {
 
 function SendCommand(address) {
     var http = new XMLHttpRequest();
-    http.open("GET", "http://127.0.0.1:1887/SendCommand?address=" + String(address), true);
+    http.open("GET", "http://api-dti.azycloud.my.id/SendCommand?address=" + String(address), true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -40,7 +40,7 @@ function SendCommand(address) {
 }
 function datasensor() {
     var http = new XMLHttpRequest();
-    http.open("GET", "http://127.0.0.1:1887/GetCurrent", true);
+    http.open("GET", "http://api-dti.azycloud.my.id/GetCurrent", true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -66,7 +66,7 @@ function start() {
 start();
 
 function toggleMode(option, thisID, otherID, nID) {
-    var url = "http://127.0.0.1:1887/getFilterMode?";
+    var url = "http://api-dti.azycloud.my.id/getFilterMode?";
     if (option === 'A') {
         document.getElementById(otherID).checked = false;
         document.getElementById("AutoF" + nID).style.display = "block";

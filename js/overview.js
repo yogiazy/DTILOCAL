@@ -68,7 +68,7 @@ function processData(data, dataIndex) {
 
 function start() {
     let http = new XMLHttpRequest();
-    http.open("GET", "http://127.0.0.1:1887/GetCurrent", true);
+    http.open("GET", "http://api-dti.azycloud.my.id/GetCurrent", true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
