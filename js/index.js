@@ -127,8 +127,8 @@ let chartfm3 = new JustGage({
 });
 
 let totalizerData = [
-    { data: [], diffElementId: "diffTRW", diffElementSuffix: "TRW", elementId: "Totalizer_Raw_Water", dataKey: "Totalizer_Raw" },
-    { data: [], diffElementId: "diffTPW0", diffElementSuffix: "TPW0", elementId: "Totalizer_Product_Water0", dataKey: "Totalizer_Product" },
+    // { data: [], diffElementId: "diffTRW", diffElementSuffix: "TRW", elementId: "Totalizer_Raw_Water", dataKey: "Totalizer_Raw" },
+    // { data: [], diffElementId: "diffTPW0", diffElementSuffix: "TPW0", elementId: "Totalizer_Product_Water0", dataKey: "Totalizer_Product" },
     { data: [], diffElementId: "diffTPW1", diffElementSuffix: "TPW1", elementId: "Totalizer_Product_Water1", dataKey: "TOTALIZER_PRODUCT_1" },
     { data: [], diffElementId: "diffTPW2", diffElementSuffix: "TPW2", elementId: "Totalizer_Product_Water2", dataKey: "TOTALIZER_PRODUCT_2" },
     { data: [], diffElementId: "diffTBW", diffElementSuffix: "TBW", elementId: "Totalizer_Backwash_Water", dataKey: "TOTALIZER_TBW" },
@@ -141,9 +141,9 @@ let elementsToUpdate = [
     { id: "tbdraw", key: "Turbidity_Raw", unit: " NTU" },
     { id: "phraw", key: "pH_Raw", unit: "" },
     { id: "rvol", key: "Reservoir_Volume", unit: " m&sup3" },
-    { id: "fmp1", key: "FLOWRATE_PRODUCT_1", unit: " LPS" },
-    { id: "fmp2", key: "FLOWRATE_PRODUCT_2", unit: " LPS" },
-    { id: "fmp3", key: "Flow_Rate_Product", unit: " LPS" },
+    { id: "fmp1", key: "TOTALIZER_PRODUCT_1", unit: " m&sup3" },
+    { id: "fmp2", key: "TOTALIZER_PRODUCT_2", unit: " m&sup3" },
+    // { id: "fmp3", key: "Totalizer_Product", unit: " m&sup3" },
     { id: "tbdp", key: "Turbidity_Product", unit: " NTU" },
     { id: "phproduct", key: "pH_Product", unit: "" },
     { id: "cproduct", key: "Chlorine_Product", unit: " ppm" },
@@ -156,7 +156,7 @@ function addSeparator(x) {
 
 function updateDiffElement(diffElement, diffValue) {
     let diffplusmin = diffValue < 0 ? "-" : "+";
-    let formattedDiff = addSeparator(Math.abs(diffValue).toFixed(2));
+    let formattedDiff = addSeparator(Math.abs(diffValue).toFixed(0));
     diffElement.classList.add(diffValue < 0 ? "text-red-500" : "text-green-500");
     diffElement.innerHTML = `${diffplusmin}${formattedDiff}`;
 }
@@ -178,9 +178,13 @@ function updateElementValues(data, len) {
         let formattedValue = 0;
         if (elementInfo.key == "Turbidity_Sedimentation_A" || elementInfo.key == "Turbidity_Sedimentation_B") {
             formattedValue = `${value.toFixed(2)}${elementInfo.unit}`;
+        } else if (elementInfo.key == "TOTALIZER_PRODUCT_1" || elementInfo.key == "TOTALIZER_PRODUCT_2" || elementInfo.key == "Totalizer_Product") {
+            let myupdate = parseFloat(value).toFixed(0);
+            formattedValue = `${addSeparator(myupdate)}${elementInfo.unit}`;
         } else {
-            formattedValue = `${addSeparator(value)}${elementInfo.unit}`;
-        }   
+            let myupdate = parseFloat(value).toFixed(2);
+            formattedValue = `${addSeparator(myupdate)}${elementInfo.unit}`;
+        }
         document.getElementById(elementInfo.id).innerHTML = formattedValue;
     }
 }

@@ -543,6 +543,3 @@ function btnRun(buttonId) {
         buttonElement.textContent = originalText;
     }, 5000);
 }
-
-
-// start();

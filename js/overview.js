@@ -51,7 +51,16 @@ function updateElementValues(data) {
     for (let i = 0; i < elementsToUpdate.length; i++) {
         let elementInfo = elementsToUpdate[i];
         let value = lastData[elementInfo.key];
-        let formattedValue = `${addSeparator(value)}${elementInfo.unit}`;
+        let formattedValue = 0;
+        if (elementInfo.key == "Turbidity_Sedimentation_A" || elementInfo.key == "Turbidity_Sedimentation_B") {
+            formattedValue = `${value.toFixed(2)}${elementInfo.unit}`;
+        } else if (elementInfo.key == "TOTALIZER_PRODUCT_1" || elementInfo.key == "TOTALIZER_PRODUCT_2" || elementInfo.key == "Totalizer_Product") {
+            let myupdate = parseFloat(value).toFixed(0);
+            formattedValue = `${addSeparator(myupdate)}${elementInfo.unit}`;
+        } else {
+            let myupdate = parseFloat(value).toFixed(2);
+            formattedValue = `${addSeparator(myupdate)}${elementInfo.unit}`;
+        }
         document.getElementById(elementInfo.id).innerHTML = formattedValue;
     }
 }
