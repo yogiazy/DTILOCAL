@@ -35,21 +35,21 @@ function updateElement(elementId, value) {
 
 function UpdateDataDisplay() {
     var http = new XMLHttpRequest();
-    http.open("GET", "http://api-dti.azycloud.my.id/StatusRelay?data=" + String(intervalcounter), true);
+    http.open("GET", "https://api-dti.azycloud.my.id/StatusRelay?data=" + String(intervalcounter), true);
     http.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var data1 = JSON.parse(this.responseText)[0];
             for (var i = 1; i <= 9; i++) {
                 if (i != 9) {
                     updateElement("manualSA" + i, data1["SA" + i]);
-                    updateElement("manualSBD" + i, data1["SB" + i]);
+                    updateElement("manualSB" + i, data1["SB" + i]);
                     updateElement("SADA" + i, data1["SA" + i]);
                     updateElement("SBDB" + i, data1["SB" + i]);
                 }
-                updateElement("manualFAD" + i, data1["FA" + i]);
-                updateElement("manualFBD" + i, data1["FB" + i]);
-                updateElement("FADA" + i, data1["FA" + i]);
-                updateElement("FBDB" + i, data1["FB" + i]);
+                updateElement("manualFAD" + i, data1["FAD" + i]);
+                updateElement("manualFBD" + i, data1["FBD" + i]);
+                updateElement("FADA" + i, data1["FAD" + i]);
+                updateElement("FBDB" + i, data1["FBD" + i]);
             }
             var data2 = JSON.parse(this.responseText)[4];
             var elementsA = document.querySelectorAll('[id^="count"]');
@@ -86,7 +86,8 @@ function UpdateDataDisplay() {
 
 }
 
-setInterval(UpdateDataDisplay, 100);
+UpdateDataDisplay();
+setInterval(UpdateDataDisplay, 2000);
 
 function SubmitAuto(x) {
 
@@ -142,7 +143,7 @@ function RadioS(x) {
 }
 function takedatarelay() {
     var http = new XMLHttpRequest();
-    http.open("GET", "http://api-dti.azycloud.my.id/GetStatusRelay", true);
+    http.open("GET", "https://api-dti.azycloud.my.id/GetStatusRelay", true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -177,7 +178,7 @@ function SendCommand(address) {
     } else if (color == "rgb(0, 0, 255)") {
         cmd = "0";
     }
-    http.open("GET", "http://api-dti.azycloud.my.id/SendCommand?address=" + String(address) + "&cmd=" + cmd, true);
+    http.open("GET", "https://api-dti.azycloud.my.id/SendCommand?address=" + String(address) + "&cmd=" + cmd, true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -189,7 +190,7 @@ function SendCommand(address) {
 }
 function datasensor() {
     var http = new XMLHttpRequest();
-    http.open("GET", "http://api-dti.azycloud.my.id/GetCurrent", true);
+    http.open("GET", "https://api-dti.azycloud.my.id/GetCurrent", true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -239,7 +240,7 @@ function toggleRadio(thisID, otherID) {
 
     if (clickedCheckbox.checked) {
         otherCheckbox.checked = false;
-        var url = "http://api-dti.azycloud.my.id/getMode?";
+        var url = "https://api-dti.azycloud.my.id/getMode?";
 
         if (thisID.substr(-7) === "paralel") {
             url = url + "ID=" + thisID + "&AutoMode" + "=1";
@@ -253,7 +254,7 @@ function toggleRadio(thisID, otherID) {
     }
 }
 function toggleMode(option, thisID, otherID, nID) {
-    var url = "http://api-dti.azycloud.my.id/getMode?";
+    var url = "https://api-dti.azycloud.my.id/getMode?";
     if (option === 'A') {
         document.getElementById(otherID).checked = false;
         document.getElementById("autoFlocc" + nID).style.display = "block";
@@ -300,7 +301,7 @@ function buttonManual(buttonId) {
         const clickIntervalId = setInterval(() => updateElapsedTime(buttonId), 1000);
         clickIntervalIds[buttonId] = clickIntervalId;
         // alert("on");
-        http.open("GET", "http://api-dti.azycloud.my.id/getTombol?" + buttonId + "=1", true);
+        http.open("GET", "https://api-dti.azycloud.my.id/getTombol?" + buttonId + "=1", true);
         http.send();
     } else {
         clearInterval(clickIntervalIds[buttonId]);
@@ -310,7 +311,7 @@ function buttonManual(buttonId) {
         button.style.paddingLeft = "";
         button.style.paddingRight = "";
         // alert("off");
-        http.open("GET", "http://api-dti.azycloud.my.id/getTombol?" + buttonId + "=0&Durasi=" + currentTime[buttonId], true);
+        http.open("GET", "https://api-dti.azycloud.my.id/getTombol?" + buttonId + "=0&Durasi=" + currentTime[buttonId], true);
         http.send();
     }
 }
@@ -329,7 +330,7 @@ function btnCheck(buttonId) {
     var originalColor = buttonElement.style.backgroundColor;
     var originalText = buttonElement.textContent;
     var http = new XMLHttpRequest();
-    http.open("GET", "http://api-dti.azycloud.my.id/getCheck?id=" + String(buttonId), true);
+    http.open("GET", "https://api-dti.azycloud.my.id/getCheck?id=" + String(buttonId), true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -462,7 +463,7 @@ function btnSubmit(buttonId) {
     buttonElement.textContent = "Done!";
 
     var http = new XMLHttpRequest();
-    var url = "http://api-dti.azycloud.my.id/getExecute?ID=" + buttonId + "&Data=" + JSON.stringify(data);
+    var url = "https://api-dti.azycloud.my.id/getExecute?ID=" + buttonId + "&Data=" + JSON.stringify(data);
     http.open("GET", url, true);
     http.send();
     http.onreadystatechange = function () {
@@ -493,7 +494,7 @@ function btnStop(buttonId) {
     buttonElement.style.backgroundColor = "#75195e";
     buttonElement.textContent = "Done!";
     var http = new XMLHttpRequest();
-    var url = "http://api-dti.azycloud.my.id/getExecute?stop=0&ID=" + buttonId;
+    var url = "https://api-dti.azycloud.my.id/getExecute?stop=0&ID=" + buttonId;
     http.open("GET", url, true);
     http.send();
     http.onreadystatechange = function () {
@@ -523,7 +524,7 @@ function btnRun(buttonId) {
     buttonElement.style.backgroundColor = "#21612c";
     buttonElement.textContent = "Running!";
     var http = new XMLHttpRequest();
-    var url = "http://api-dti.azycloud.my.id/getExecute?run=1&ID=" + buttonId;
+    var url = "https://api-dti.azycloud.my.id/getExecute?run=1&ID=" + buttonId;
     http.open("GET", url, true);
     http.send();
     http.onreadystatechange = function () {
@@ -543,3 +544,6 @@ function btnRun(buttonId) {
         buttonElement.textContent = originalText;
     }, 5000);
 }
+
+
+// start();

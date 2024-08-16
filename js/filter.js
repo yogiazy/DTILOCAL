@@ -15,7 +15,7 @@ if (win && document.querySelector('#sidenav-scrollbar')) {
 
 function datasensor() {
     var http = new XMLHttpRequest();
-    http.open("GET", "http://api-dti.azycloud.my.id/GetCurrent", true);
+    http.open("GET", "http://192.168.0.101:1880/GetCurrent", true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -38,7 +38,7 @@ datasensor();
 setInterval(datasensor, 5000);
 
 function toggleMode(option, thisID, otherID, nID) {
-    var url = "http://api-dti.azycloud.my.id/getFilterMode?";
+    var url = "http://192.168.0.101:1880/getFilterMode?";
     if (option === 'A') {
         document.getElementById(otherID).checked = false;
         document.getElementById("AutoF" + nID).style.display = "block";
@@ -80,7 +80,7 @@ function btnExecute(buttonId) {
         var action = 0;
     }
     var http = new XMLHttpRequest();
-    var url = "https://api-dti.azycloud.my.id/getTombol?" + buttonId + "=" + action;
+    var url = "http://192.168.0.101:1880/getTombol?" + buttonId + "=" + action;
     console.log(url);
     http.open("GET", url, true);
     http.send();
@@ -94,7 +94,7 @@ var updateFlag = true;
 function updateButton() {
     if (updateFlag) {
         var http = new XMLHttpRequest();
-        var url = "https://api-dti.azycloud.my.id/dti-get-update-sensor?";
+        var url = "http://192.168.0.101:1880/dti-get-update-sensor?";
         http.open("GET", url, true);
         http.send();
         http.onreadystatechange = function () {
