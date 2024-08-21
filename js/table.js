@@ -27,7 +27,7 @@ function Search() {
     if (from < to) {
         btnSearch.innerHTML = "<i class='bx bx-loader-alt bx-spin bx-md-3'></i> Searching";
         let http = new XMLHttpRequest();
-        http.open("GET", "http://192.168.0.101:1880/GetDataFromTo?From=" + String(from) + "&To=" + String(to), true);
+        http.open("GET", "http://api-dti.azycloud.my.id/GetDataFromTo?From=" + String(from) + "&To=" + String(to), true);
         http.send();
         http.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {

@@ -191,7 +191,7 @@ function updateElementValues(data, len) {
 
 function start() {
     let http = new XMLHttpRequest();
-    http.open("GET", "http://192.168.0.101:1880/GetCurrent", true);
+    http.open("GET", "http://api-dti.azycloud.my.id/GetCurrent", true);
     http.send();
     http.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
